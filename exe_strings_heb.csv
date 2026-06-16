@@ -203,7 +203,7 @@ offset,eng_size,he_size,special_char,text_en,text_he
 0x164BF,18,,,  been saved yet!:,  נשמר עדיין!:,
 0x164D2,26,,0x0A,That file is incompatible%s,הקובץ הזה אינו תואם%s,
 0x164ED,23,,,with this verion of CK:,איזה גרסה של קין:,
-0x16505,38,,0x0F 0x13,       ESC to Exit / %s %s to Read      ,ESC ליציאה / %s %s לקריאה   ,
+0x16505,38,,0x0F 0x13,       ESC to Exit / %s %s to Read      ,   %s%s  CSE לצאת,
 0x1652C,25,,0x0A,Commander Keen: Invasion%s,המפקד קין: הפלישה%s,
 0x16546,26,,0x0A,of the Vorticons consists%s,של הוורטיקונים מורכב%s,
 0x16561,23,,0x0A,   of three unique and%s,   משלושה פרקים ייחודיים%s,

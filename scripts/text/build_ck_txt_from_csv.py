@@ -4,11 +4,12 @@ import argparse
 import csv
 import shutil
 import sys
+import unicodedata
 from pathlib import Path
 
 from eng_heb_map import HEBREW_TO_CODE
 
-# CONTROL BYTES IN STORYTXT.CK1
+# CONTROL BYTES IN CK text files (e.g. STORYTXT.CK1, PREVIEWS.CK1)
 CR = 0x0D
 LF = 0x0A
 RED_PREFIX = 0x7E
@@ -19,6 +20,23 @@ BIG_BULLET_LL = 0x99
 BULLET_LR = 0x9A
 MAX_LINE_LENGTH = 38
 LAST_LINE_MAX_LENGTH = 37
+
+PRESERVED_PUNCTUATION = {"-",".","?","(",")"}
+
+UNICODE_TO_LATIN1_REPLACEMENTS = {
+    "\u2010": "-",  # hyphen
+    "\u2011": "-",  # non-breaking hyphen
+    "\u2012": "-",  # figure dash
+    "\u2013": "-",  # en dash
+    "\u2014": "-",  # em dash
+    "\u2015": "-",  # horizontal bar
+    "\u2018": "'",  # left single quote
+    "\u2019": "'",  # right single quote
+    "\u201C": '"',  # left double quote
+    "\u201D": '"',  # right double quote
+    "\u2026": "...",  # ellipsis
+    "\u00A0": " ",  # non-breaking space
+}
 
 
 def parse_control_hex(value: str, line_index: int) -> list[int]:
@@ -49,11 +67,32 @@ def parse_control_hex(value: str, line_index: int) -> list[int]:
     return controls
 
 
-def encode_story_text(text: str) -> bytes:
-    mapped_chars: list[str] = []
-    for char in text:
-        mapped_chars.append(HEBREW_TO_CODE.get(char, char))
-    return "".join(mapped_chars).encode("latin-1")
+def normalize_text_for_layout(text: str) -> str:
+    """Apply Unicode replacements and drop punctuation BEFORE wrapping/padding.
+
+    This must happen before `rtl_transform` so that line wrapping and column
+    padding are computed against the exact character set that ends up in the
+    output file. Otherwise lines that originally contained punctuation come
+    out shorter than the padded width once `encode_ck_text` strips it.
+    """
+    replaced = "".join(UNICODE_TO_LATIN1_REPLACEMENTS.get(ch, ch) for ch in text)
+
+    # Per project preference, punctuation can be dropped from AI-generated text,
+    # except for characters we explicitly want to keep (e.g. hyphen).
+    return "".join(
+        ch for ch in replaced
+        if ch in PRESERVED_PUNCTUATION
+        or not unicodedata.category(ch).startswith("P")
+    )
+
+
+def encode_ck_text(text: str) -> bytes:
+    """Map Hebrew code points to their CK byte codes and emit latin-1 bytes.
+
+    Expects `text` to already be normalized via `normalize_text_for_layout`.
+    """
+    mapped_chars = [HEBREW_TO_CODE.get(char, char) for char in text]
+    return "".join(mapped_chars).encode("latin-1", errors="ignore")
 
 
 def wrap_text_no_word_break(text: str, max_len: int = MAX_LINE_LENGTH) -> list[str]:
@@ -76,7 +115,7 @@ def wrap_text_no_word_break(text: str, max_len: int = MAX_LINE_LENGTH) -> list[s
     return wrapped
 
 
-def rebalance_last_line(wrapped_lines: list[str]) -> list[str]:
+def rebalance_last_line(wrapped_lines: list[str], max_line_length: int = MAX_LINE_LENGTH) -> list[str]:
     if len(wrapped_lines) < 2 or len(wrapped_lines[-1]) <= LAST_LINE_MAX_LENGTH:
         return wrapped_lines
 
@@ -92,12 +131,12 @@ def rebalance_last_line(wrapped_lines: list[str]) -> list[str]:
         remaining = " ".join(combined_words[split_index + 1 :])
         remaining_line = combined_words[split_index] if not remaining else f"{combined_words[split_index]} {remaining}"
 
-        if len(candidate) <= MAX_LINE_LENGTH and len(remaining_line) <= LAST_LINE_MAX_LENGTH:
+        if len(candidate) <= max_line_length and len(remaining_line) <= LAST_LINE_MAX_LENGTH:
             rebuilt_previous = candidate
             split_index += 1
             break
 
-        if len(candidate) <= MAX_LINE_LENGTH:
+        if len(candidate) <= max_line_length:
             rebuilt_previous = candidate
             split_index += 1
             continue
@@ -117,8 +156,11 @@ def rebalance_last_line(wrapped_lines: list[str]) -> list[str]:
     return wrapped_lines
 
 
-def rtl_transform(text: str, leading_spaces: int = 0) -> str:
-    wrapped_lines = rebalance_last_line(wrap_text_no_word_break(text))
+def rtl_transform(text: str, leading_spaces: int = 0, max_line_length: int = MAX_LINE_LENGTH) -> str:
+    wrapped_lines = rebalance_last_line(
+        wrap_text_no_word_break(text, max_len=max_line_length),
+        max_line_length=max_line_length,
+    )
     reversed_lines: list[str] = []
     for index, line in enumerate(wrapped_lines):
         reversed_line = line[::-1]
@@ -126,10 +168,11 @@ def rtl_transform(text: str, leading_spaces: int = 0) -> str:
         if index == 0 and leading_spaces > 0:
             reversed_line += " " * leading_spaces
 
-        if index == 0:
-            padded_width = MAX_LINE_LENGTH
-        else:
-            padded_width = LAST_LINE_MAX_LENGTH if index == len(wrapped_lines) - 1 else MAX_LINE_LENGTH
+        # The last wrapped line gets the shorter width. This also covers the
+        # single-line case (index 0 is also the last line), so it pads to
+        # LAST_LINE_MAX_LENGTH regardless of the per-row max_line_length.
+        is_last_line = index == len(wrapped_lines) - 1
+        padded_width = LAST_LINE_MAX_LENGTH if is_last_line else max_line_length
         padded_line = reversed_line.rjust(padded_width, " ")
         reversed_lines.append(padded_line)
     return "\r\n".join(reversed_lines)
@@ -148,6 +191,24 @@ def row_to_bytes(row: dict[str, str], row_number: int) -> tuple[bytes, int]:
     except ValueError as exc:
         raise ValueError(f"Invalid numeric metadata in CSV row {line_index}.") from exc
 
+    # Optional per-row override for the wrap/pad width. Falls back to the
+    # global MAX_LINE_LENGTH when the column is missing or blank. The last
+    # line cap (LAST_LINE_MAX_LENGTH) is intentionally NOT overridden.
+    max_line_length_raw = (row.get("max_line_length") or "").strip()
+    if max_line_length_raw:
+        try:
+            max_line_length = int(max_line_length_raw)
+        except ValueError as exc:
+            raise ValueError(
+                f"Invalid max_line_length '{max_line_length_raw}' in CSV row {line_index}."
+            ) from exc
+        if max_line_length <= 0:
+            raise ValueError(
+                f"max_line_length must be positive in CSV row {line_index}."
+            )
+    else:
+        max_line_length = MAX_LINE_LENGTH
+
     if leading_spaces < 0 or trailing_breaks < 0:
         raise ValueError(f"Negative metadata values are not allowed in CSV row {line_index}.")
 
@@ -165,8 +226,12 @@ def row_to_bytes(row: dict[str, str], row_number: int) -> tuple[bytes, int]:
     if has_big_bullet_bottom:
         line.extend([BIG_BULLET_LL, BULLET_LR])
 
-    transformed_text = rtl_transform(source_text.rstrip(" "), leading_spaces)
-    line.extend(encode_story_text(transformed_text))
+    # Normalize first (drops punctuation, applies Unicode replacements) so the
+    # column padding inside `rtl_transform` matches the final byte count.
+    #normalized_text = normalize_text_for_layout(source_text).rstrip(" ")
+    normalized_text = source_text.rstrip(" ")
+    transformed_text = rtl_transform(normalized_text, leading_spaces, max_line_length=max_line_length)
+    line.extend(encode_ck_text(transformed_text))
 
     control_hex = row.get("special_end_sign_hex", "")
     controls = parse_control_hex(control_hex, int(line_index))
@@ -175,7 +240,7 @@ def row_to_bytes(row: dict[str, str], row_number: int) -> tuple[bytes, int]:
     return bytes(line), trailing_breaks
 
 
-def build_storytxt_bytes(csv_rows: list[dict[str, str]]) -> bytes:
+def build_ck_txt_bytes(csv_rows: list[dict[str, str]]) -> bytes:
     output = bytearray()
 
     for row_number, row in enumerate(csv_rows, start=1):
@@ -228,19 +293,25 @@ def read_csv_rows(path: Path) -> list[dict[str, str]]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Build STORYTXT.CK1 from translated CSV metadata and text."
+        description="Build CK text file from translated CSV metadata and text."
+    )
+    parser.add_argument(
+        "--input",
+        dest="input_csv",
+        type=Path,
+        help="Alias for --input-csv.",
     )
     parser.add_argument(
         "--input-csv",
         type=Path,
-        default=Path("storytxt_extract_heb.csv"),
-        help="Path to translated CSV (default: storytxt_extract_heb.csv)",
+        default=Path("ck_txt_extract_heb.csv"),
+        help="Path to translated CSV (default: ck_txt_extract_heb.csv)",
     )
     parser.add_argument(
         "--output",
         type=Path,
         default=Path("keen1/STORYTXT.CK1"),
-        help="Output STORYTXT file path (default: keen1/STORYTXT.CK1)",
+        help="Output CK text file path (default: keen1/STORYTXT.CK1)",
     )
     parser.add_argument(
         "--override",
@@ -261,7 +332,7 @@ def main() -> None:
     try:
         ensure_output_policy(args.output, args.override, args.backup)
         rows = read_csv_rows(args.input_csv)
-        data = build_storytxt_bytes(rows)
+        data = build_ck_txt_bytes(rows)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_bytes(data)
     except (ValueError, FileExistsError, OSError) as exc:

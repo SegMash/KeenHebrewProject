@@ -1,33 +1,33 @@
-line_index,leading_spaces,is_red,has_bullet,has_big_bullet_top,has_big_bullet_bottom,special_end_sign_hex,trailing_breaks,text_en,text_he
-1,12,1,0,0,0,0x1F,0,COMMANDER KEEN,קומנדר קין
-2,18,1,0,0,0,0x1F,0,in,ב-
-3,6,1,0,0,0,,3,"""Invasion of the Vorticons""","""פלישת הוורטיקונים"""
-4,0,0,0,0,0,,2,"Billy Blaze, eight year-old genius, working diligently in his backyard clubhouse has created an interstellar starship from old soup cans, rubber cement and plastic tubing. While his folks are out on the town and the babysitter has fallen asleep, Billy travels into his backyard workshop, dons his brother's football helmet, and transforms into...","בילי בלייז, גאון בן שמונה, עבד בשקדנות במועדון שבחצר האחורית שלו ובנה ספינת חלל בין-כוכבית מפחיות מרק ישנות, דבק מגע וצינורות פלסטיק. בזמן שהוריו בילו בעיר והבייביסיטר נרדמה, בילי ניגש לסדנה שלו בחצר, חבש את קסדת הפוטבול של אחיו הגדול, והופך ל..."
-5,2,0,0,0,0,,2,COMMANDER KEEN--defender of Earth!,קומנדר קין - מגן כדור הארץ!
-6,0,0,0,0,0,,3,"In his ship, the Bean-with-Bacon Megarocket, Keen dispenses galactic justice with an iron hand!","בחללית שלו, ה""מגה-טיל שעועית עם נקניק"", קין עושה צדק גלקטי ביד רמה!"
-7,3,1,0,0,0,,3,Episode One: Marooned on Mars,פרק 1: נטוש על מאדים
-8,0,0,0,0,0,,2,"In this episode, aliens from the planet Vorticon VI find out about the eight year-old genius and plan his destruction. While Keen is out exploring the mountains of Mars, the Vorticons steal vital parts of his ship and take them to distant Martian cities! Can Keen recover all the pieces of his ship and repel the Vorticon invasion? Will he make it back before his parents get home? Stay tuned!","בפרק זה, חייזרים מכוכב וורטיקון 6 מגלים על הגאון בן השמונה ומתכננים להשמיד אותו. בזמן שקין עסוק בלחקור את הרי מאדים, הוורטיקונים גונבים חלקים חיוניים מהחללית שלו ולוקחים אותם לערים מאדימיות רחוקות! האם קין יצליח להשיב את חלקי החללית ולעצור את הפלישה? האם יחזור לפני שהוריו יגיעו הביתה? הישארו עמנו!"
-9,3,1,0,0,0,,2,WHAT THE VORTICONS HAVE STOLEN,מה הוורטיקונים גנבו
-10,0,0,0,0,0,,2,"The Bean-with-Bacon Megarocket was constructed from objects around the house that you have ""modified"" into starship parts:","ה""מגה-טיל שעועית עם נקניק"" הורכבה מחפצים ביתיים ש""שודרגה"" לחלקי חללית:"
-11,1,0,1,0,0,,2,JOYSTICK (from your brother's video game) Manual flight control.,ג'ויסטיק (מהמשחק של אחיך) - בקרת טיסה ידנית.
-12,1,0,1,0,0,,2,CAR BATTERY (from your Mom's car) Electrical systems power.,מצבר (מהמכונית של אמא) - אספקת כוח למערכות החשמל.
-13,1,0,1,0,0,,2,"VACUUM CLEANER (from the kitchen, heavily modified) Ion propulsion unit (with carpet height adjustment).","שואב אבק (מהמטבח, משודרג בכבדות) - יחידת הנעה יונית (כולל כוונון לגובה השטיח)."
-14,1,0,1,0,0,,4,EVERCLEAR (from your Dad's liquor cabinet) Fuel.,אלכוהול נקי (מארון המשקאות של אבא) - דלק.
-15,0,0,0,0,0,,2,"The Vorticons have taken these pieces to the far reaches of Mars and are guarding them. You must find the members of this Vorticon outpost and wrest the parts back from their wicked, clawed hands!","הוורטיקונים לקחו את החלקים הללו לקצוות הרחוקים של מאדים ושומרים עליהם. עליך למצוא את חברי הכוכב הזה ולחלץ את החלקים מציפורניהם החדות והמרושעות!"
-16,9,1,0,0,0,,2,INFORMATION ON MARS,מידע על מאדים
-17,0,0,0,0,0,,2,"Unbeknownst to NASA, when the Viking Lander settled to the surface of Mars, it caused a major political upheaval. Viking actually landed on the despotic Martian king! The Yorps (the extremely friendly one-eyed Martians) were free from enslavement, and the Gargs (the vicious, aggressive Martians) were angry.","בלי שנאס""א ידעו, כשנחתת הוויקינג התיישבה על פני מאדים, היא גרמה למהפך פוליטי אדיר. הוויקינג למעשה נחתה בדיוק על המלך המאדימי העריץ! היורפים (החייזרים החד-עיניים והחברותיים להפליא) שוחררו מעבדות, והגארגים (המאדימים האלימים והתוקפניים) זועמים."
-18,0,0,0,0,0,,2,The Martians created robots for menial work and guard duties. Beware of the tank-like Guard Robots--they are VERY good at what they do.,המאדימים יצרו רובוטים לעבודות כפיים ולשמירה. היזהרו מרובוטי השמירה דמויי הטנק - הם טובים מאוד במה שהם עושים.
-19,0,0,0,0,0,,2,Martians have been visiting Earth in UFOs for decades. Why? They come to Earth for one reason--THEY WANT OUR TOYS. Hula hoops and skateboards are holy objects to them! Who knows...you may find some toys useful!,מאדימים מבקרים בכדור הארץ בצלחות מעופפות כבר עשרות שנים. למה? הם מגיעים לכדור הארץ מסיבה אחת - הם רוצים את הצעצועים שלנו. חישוקי הולה-הופ וסקייטבורדים הם חפצים קדושים עבורם! מי יודע... אולי תמצא כמה צעצועים שימושיים!
-20,0,0,0,0,0,,2,There are signs everywhere. You haven't been able to decipher them yet....,יש שלטים בכל מקום. עדיין לא הצלחת לפענח אותם...
-21,8,1,0,0,0,,2,THE ADVENTURE BEGINS...,ההרפתקה מתחילה...
-22,0,0,0,0,0,,2,"Your task is before you. Go get 'em, Commander Keen!","המשימה לפניך. צא לדרך, קומנדר קין!"
-23,0,1,0,0,0,,2,,
-24,0,0,0,0,0,,3,"And don't miss episodes Two and Three in the ""Invasion of the Vorticons"" trilogy!","ואל תפספסו את פרקים 2 ו-3 בטרילוגיית ""פלישת הוורטיקונים""!"
-25,2,1,0,0,0,,2,Episode Two: The Earth Explodes,פרק 2: כדור הארץ מתפוצץ
-26,0,0,0,0,0,,2,"Keen has assembled his ship and returned home, only to find the Vorticon Mothership hovering over the Earth, ready to destroy all of Earth's cities and wonders! Keen must sneak aboard, stop the imminent destruction of Earth and find a way to neutralize the Mothership! If he fails...THE EARTH EXPLODES! (No pressure.)","קין הרכיב את חלליתו וחזר הביתה, רק כדי לגלות את ספינת האם של הוורטיקונים מרחפת מעל כדור הארץ, מוכנה להשמיד את כל הערים ופלאי העולם! קין חייב להסתנן פנימה, לעצור את ההשמדה המיידית ולמצוא דרך לנטרל את ספינת האם! אם ייכשל... כדור הארץ יתפוצץ! (בלי לחץ, כן?)"
-27,3,1,0,0,0,,2,Episode Three: Keen Must Die!,פרק 3: קין חייב למות!
-28,0,0,0,0,0,,3,"Keen flies to the planet Vorticon VI to once and for all rid the galaxy of the Vorticon menace. The entire planet is waiting for his arrival, with only one order given--Commander Keen must die! What evil being is behind all this? Stay tuned for the climactic, shocking finale!","קין טס לכוכב וורטיקון 6 כדי להיפטר אחת ולתמיד מהאיום הוורטיקוני על הגלקסיה. כוכב שלם מחכה להגעתו עם פקודה אחת בלבד - קומנדר קין חייב למות! איזה יצור מרושע עומד מאחורי כל זה? הישארו עמנו לסיום המותח והמזעזע!"
-29,2,0,0,1,0,0x1F,0,Commander Keen says:,קומנדר קין אומר:
-30,4,0,0,0,1,0x1F,0,"""You won't believe what happens","""לא תאמינו מה קורה"
-31,7,0,0,0,0,0x1A,0,"in Episode Three!""",בפרק השלישי!"""
-32,0,0,0,0,0,,0,,
+line_index,leading_spaces,is_red,has_bullet,has_big_bullet_top,has_big_bullet_bottom,special_end_sign_hex,trailing_breaks,text_en,text_he,max_line_length
+1,12,1,0,0,0,0x1F,0,COMMANDER KEEN,קומנדר קין,
+2,18,1,0,0,0,0x1F,0,in,ב-,
+3,6,1,0,0,0,,3,"""Invasion of the Vorticons""","""פלישת הוורטיקונים""",
+4,0,0,0,0,0,,2,"Billy Blaze, eight year-old genius, working diligently in his backyard clubhouse has created an interstellar starship from old soup cans, rubber cement and plastic tubing. While his folks are out on the town and the babysitter has fallen asleep, Billy travels into his backyard workshop, dons his brother's football helmet, and transforms into...","בילי בלייז, גאון בן שמונה, עבד בשקדנות במועדון שבחצר האחורית שלו ובנה ספינת חלל בין-כוכבית מפחיות מרק ישנות, דבק מגע וצינורות פלסטיק. בזמן שהוריו בילו בעיר והבייביסיטר נרדמה, בילי ניגש לסדנה שלו בחצר, חבש את קסדת הפוטבול של אחיו הגדול, והופך ל...",
+5,2,0,0,0,0,,2,COMMANDER KEEN--defender of Earth!,קומנדר קין - מגן כדור הארץ!,
+6,0,0,0,0,0,,3,"In his ship, the Bean-with-Bacon Megarocket, Keen dispenses galactic justice with an iron hand!","בחללית שלו, ה""מגה-טיל שעועית עם נקניק"", קין עושה צדק גלקטי ביד רמה!",
+7,3,1,0,0,0,,3,Episode One: Marooned on Mars,פרק 1: נטוש על מאדים,
+8,0,0,0,0,0,,2,"In this episode, aliens from the planet Vorticon VI find out about the eight year-old genius and plan his destruction. While Keen is out exploring the mountains of Mars, the Vorticons steal vital parts of his ship and take them to distant Martian cities! Can Keen recover all the pieces of his ship and repel the Vorticon invasion? Will he make it back before his parents get home? Stay tuned!","בפרק זה, חייזרים מכוכב וורטיקון 6 מגלים על הגאון בן השמונה ומתכננים להשמיד אותו. בזמן שקין עסוק בלחקור את הרי מאדים, הוורטיקונים גונבים חלקים חיוניים מהחללית שלו ולוקחים אותם לערים מאדימיות רחוקות! האם קין יצליח להשיב את חלקי החללית ולעצור את הפלישה? האם יחזור לפני שהוריו יגיעו הביתה? הישארו עמנו!",
+9,3,1,0,0,0,,2,WHAT THE VORTICONS HAVE STOLEN,מה הוורטיקונים גנבו,
+10,0,0,0,0,0,,2,"The Bean-with-Bacon Megarocket was constructed from objects around the house that you have ""modified"" into starship parts:","ה""מגה-טיל שעועית עם נקניק"" הורכבה מחפצים ביתיים ש""שודרגה"" לחלקי חללית:",
+11,1,0,1,0,0,,2,JOYSTICK (from your brother's video game) Manual flight control.,ג'ויסטיק (מהמשחק של אחיך) - בקרת טיסה ידנית.,36
+12,1,0,1,0,0,,2,CAR BATTERY (from your Mom's car) Electrical systems power.,מצבר (מהמכונית של אמא) - אספקת כוח למערכות החשמל.,37
+13,1,0,1,0,0,,2,"VACUUM CLEANER (from the kitchen, heavily modified) Ion propulsion unit (with carpet height adjustment).","שואב אבק (מהמטבח, משודרג בכבדות) - יחידת הנעה יונית (כולל כוונון לגובה השטיח).",37
+14,1,0,1,0,0,,4,EVERCLEAR (from your Dad's liquor cabinet) Fuel.,אלכוהול נקי (מארון המשקאות של אבא) - דלק.,37
+15,0,0,0,0,0,,2,"The Vorticons have taken these pieces to the far reaches of Mars and are guarding them. You must find the members of this Vorticon outpost and wrest the parts back from their wicked, clawed hands!","הוורטיקונים לקחו את החלקים הללו לקצוות הרחוקים של מאדים ושומרים עליהם. עליך למצוא את חברי הכוכב הזה ולחלץ את החלקים מציפורניהם החדות והמרושעות!",
+16,9,1,0,0,0,,2,INFORMATION ON MARS,מידע על מאדים,
+17,0,0,0,0,0,,2,"Unbeknownst to NASA, when the Viking Lander settled to the surface of Mars, it caused a major political upheaval. Viking actually landed on the despotic Martian king! The Yorps (the extremely friendly one-eyed Martians) were free from enslavement, and the Gargs (the vicious, aggressive Martians) were angry.","בלי שנאס""א ידעו, כשנחתת הוויקינג התיישבה על פני מאדים, היא גרמה למהפך פוליטי אדיר. הוויקינג למעשה נחתה בדיוק על המלך המאדימי העריץ! היורפים (החייזרים החד-עיניים והחברותיים להפליא) שוחררו מעבדות, והגארגים (המאדימים האלימים והתוקפניים) זועמים.",
+18,0,0,0,0,0,,2,The Martians created robots for menial work and guard duties. Beware of the tank-like Guard Robots--they are VERY good at what they do.,המאדימים יצרו רובוטים לעבודות כפיים ולשמירה. היזהרו מרובוטי השמירה דמויי הטנק - הם טובים מאוד במה שהם עושים.,
+19,0,0,0,0,0,,2,Martians have been visiting Earth in UFOs for decades. Why? They come to Earth for one reason--THEY WANT OUR TOYS. Hula hoops and skateboards are holy objects to them! Who knows...you may find some toys useful!,מאדימים מבקרים בכדור הארץ בצלחות מעופפות כבר עשרות שנים. למה? הם מגיעים לכדור הארץ מסיבה אחת - הם רוצים את הצעצועים שלנו. חישוקי הולה-הופ וסקייטבורדים הם חפצים קדושים עבורם! מי יודע... אולי תמצא כמה צעצועים שימושיים!,
+20,0,0,0,0,0,,2,There are signs everywhere. You haven't been able to decipher them yet....,יש שלטים בכל מקום. עדיין לא הצלחת לפענח אותם...,
+21,8,1,0,0,0,,2,THE ADVENTURE BEGINS...,ההרפתקה מתחילה...,
+22,0,0,0,0,0,,2,"Your task is before you. Go get 'em, Commander Keen!","המשימה לפניך. צא לדרך, קומנדר קין!",
+23,0,1,0,0,0,,2,,,
+24,0,0,0,0,0,,3,"And don't miss episodes Two and Three in the ""Invasion of the Vorticons"" trilogy!","ואל תפספסו את פרקים 2 ו-3 בטרילוגיית ""פלישת הוורטיקונים""!",
+25,2,1,0,0,0,,2,Episode Two: The Earth Explodes,פרק 2: כדור הארץ מתפוצץ,
+26,0,0,0,0,0,,2,"Keen has assembled his ship and returned home, only to find the Vorticon Mothership hovering over the Earth, ready to destroy all of Earth's cities and wonders! Keen must sneak aboard, stop the imminent destruction of Earth and find a way to neutralize the Mothership! If he fails...THE EARTH EXPLODES! (No pressure.)","קין הרכיב את חלליתו וחזר הביתה, רק כדי לגלות את ספינת האם של הוורטיקונים מרחפת מעל כדור הארץ, מוכנה להשמיד את כל הערים ופלאי העולם! קין חייב להסתנן פנימה, לעצור את ההשמדה המיידית ולמצוא דרך לנטרל את ספינת האם! אם ייכשל... כדור הארץ יתפוצץ! (בלי לחץ, כן?)",
+27,3,1,0,0,0,,2,Episode Three: Keen Must Die!,פרק 3: קין חייב למות!,
+28,0,0,0,0,0,,3,"Keen flies to the planet Vorticon VI to once and for all rid the galaxy of the Vorticon menace. The entire planet is waiting for his arrival, with only one order given--Commander Keen must die! What evil being is behind all this? Stay tuned for the climactic, shocking finale!","קין טס לכוכב וורטיקון 6 כדי להיפטר אחת ולתמיד מהאיום הוורטיקוני על הגלקסיה. כוכב שלם מחכה להגעתו עם פקודה אחת בלבד - קומנדר קין חייב למות! איזה יצור מרושע עומד מאחורי כל זה? הישארו עמנו לסיום המותח והמזעזע!",
+29,2,0,0,1,0,0x1F,0,Commander Keen says:,קומנדר קין אומר:,
+30,4,0,0,0,1,0x1F,0,"""You won't believe what happens","""לא תאמינו מה קורה",
+31,7,0,0,0,0,0x1A,0,"in Episode Three!""",בפרק השלישי!""",
+32,0,0,0,0,0,,0,,,

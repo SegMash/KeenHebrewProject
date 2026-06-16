@@ -3,7 +3,7 @@
 This folder currently has four scripts:
 
 - `extract_ck_txt_csv.py`: extracts CK text files (for example `STORYTXT.CK1` and `PREVIEWS.CK1`) into CSV for translation.
-- `build_storytxt_from_csv.py`: rebuilds `STORYTXT.CK1` from translated CSV.
+- `build_ck_txt_from_csv.py`: rebuilds CK text files (for example `STORYTXT.CK1` and `PREVIEWS.CK1`) from translated CSV.
 - `extract_exe_strings_csv.py`: scans a byte range in an EXE and extracts null-delimited strings to CSV.
 - `inject_exe_strings_from_csv.py`: injects translated EXE strings from CSV back into `KEEN1.EXE`.
 
@@ -26,11 +26,11 @@ Custom input/output:
 python scripts/text/extract_ck_txt_csv.py --input keen1/STORYTXT.CK1 --output ck_txt_extract.csv
 ```
 
-## 2) Build STORYTXT.CK1 from translated CSV
+## 2) Build CK text files from translated CSV
 
 Default paths:
 
-- input CSV: `storytxt_extract_heb.csv`
+- input CSV: `ck_txt_extract_heb.csv`
 - output file: `keen1/STORYTXT.CK1`
 
 ### Safety behavior
@@ -46,26 +46,26 @@ If output file already exists:
 Build and overwrite directly:
 
 ```bash
-python scripts/text/build_storytxt_from_csv.py --override
+python scripts/text/build_ck_txt_from_csv.py --override
 ```
 
 Build with backup before overwrite:
 
 ```bash
-python scripts/text/build_storytxt_from_csv.py --backup backup/STORYTXT.CK1.bak
+python scripts/text/build_ck_txt_from_csv.py --backup backup/STORYTXT.CK1.bak
 ```
 
 Build with explicit paths:
 
 ```bash
-python scripts/text/build_storytxt_from_csv.py --input-csv storytxt_extract_heb.csv --output keen1/STORYTXT.CK1 --backup backup/STORYTXT_before_rebuild.CK1
+python scripts/text/build_ck_txt_from_csv.py --input-csv ck_txt_extract_heb.csv --output keen1/STORYTXT.CK1 --backup backup/STORYTXT_before_rebuild.CK1
 ```
 
 ## Typical workflow
 
 1. Extract source text to CSV.
-2. Fill `text_he` in the CSV.
-3. Rebuild `STORYTXT.CK1` from the translated CSV using `--backup` or `--override`.
+2. Fill 	ext_he in the CSV.
+3. Rebuild a CK text file (for example STORYTXT.CK1 or PREVIEWS.CK1) from the translated CSV using --backup or --override.
 
 ## 3) Extract strings from EXE by offset range
 
@@ -147,4 +147,6 @@ KEENGRAPH.exe -episode=1 -export -bmpdir="GRAPHICS" -tra -filedir="keen1"
 ```bash
 KEENGRAPH.exe -episode=1 -import -bmpdir="GRAPHICS" -tra -filedir="keen1"
 ```
+
+
 
