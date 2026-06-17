@@ -14,17 +14,11 @@ offset,eng_size,he_size,special_char,text_en,text_he
 0x151ED,28,,,PLEASE PRESS A KEY     ,נא ללחוץ על מקש     
 0x1520A,16,,,God mode enabled,מצב שמימי מופעל
 0x1521B,17,,,God mode disabled,מצב שמימי כבוי
-0x1511D,55,,,Loading Commander Keen part 1... (version 1.31 1/23/90),טוען את קומנדר קין חלק 1... (גרסה 1.31 23/1/90)
 0x15260,17,,,Joystick detected,ג'ויסטיק זוהה
-0x15167,21,,,Joystick not detected,ג'ויסטיק לא זוהה
-0x1517D,37,,,Keystrokes will not be passed to bios,לחיצות מקשים לא יועברו ל-bios
 0x15299,17,,,EGA card detected,כרטיס ega זוהה
 0x152AB,17,,,VGA card detected,כרטיס vga זוהה
 0x152BD,74,,,"Hey, I don't see an EGA or VGA card here!  Do you want to run the program ","היי, אני לא רואה כאן כרטיס ega או vga! האם אתה רוצה להריץ את התוכנית "
 0x15308,40,,,"anyway (Y = go ahead, N = quit to dos) ?","מכל מקרה (y = להמשיך, n = לצאת ל-dos) ?"
-0x1523B,50,,,"Decompressing graphics, this may take some time...","מחלץ גרפיקה, זה עלול לקחת זמן..."
-0x1526E,6,,,SOUNDS,צלילים
-0x15280,21,,0x0A,You here in your    %s,אתה שומע קול מהדהד%s
 0x1535A,21,,0x0A,mind:               %s,בראשך:             %s
 0x15386,21,,0x0A,It is too bad that  %s,זה חבל שאתה%s
 0x1539C,21,,0x0A,you cannot read the %s,לא יכול לקרוא %s
@@ -56,46 +50,36 @@ offset,eng_size,he_size,special_char,text_en,text_he
 0x15646,22,,0x0A,"Look for dark, hidden%s",חפש בחושך לבנים %s
 0x1565D,21,,0x0A,bricks. You can see %s,נסתרות. את יכול%s
 0x15673,21,,0x0A,naught but their    %s,לראות רק את הפונה%s
-0x155C5,21,,0x0A,upper left corner.  %s,השמאלית העליונה.%s
-0x155DB,21,,0x0A,A Yorpy mind-thought%s,יורפי חושב-מחשבה%s
-0x155F1,21,,0x0A,bellows:            %s,צועק:            %s
-0x1561D,21,,0x0A,You cannot kill the %s,אתה לא יכול להרוג את%s
-0x15633,21,,0x0A,Vorticon Commander  %s,מפקד בורטיקון  %s
-0x15649,21,,0x0A,directly.           %s,ישירות.           %s
-0x1565F,12,,,Press ENTER:,לחץ על אנטר:
-0x1566C,18,,,Bad think pointer!,מצביע מחשבה שגוי!
-0x1567F,20,,,Bad contact pointer!,מצביע מגע שגוי!
-0x15694,4,,,Oops,אופס
 0x1586D,26,,0x0A 0x0D,Joystick Configuration%s%s,תצורת ג'ויסטיק%s%s
 0x15888,26,,0x0A 0x0D,----------------------%s%s,----------------------%s%s
 0x158A3,26,,0x0A 0x0D,Hold the joystick in the%s%s,החזק את הג'ויסטיק%s%s
 0x158BE,12,,0x0A 0x0D,upper left%s%s,מעלה-שמאל%s%s
-0x158CB,26,,,corner and press button 1:,
+0x158CB,26,,,corner and press button 1:,CORNER AND PRESS BUTTON 1:
 0x158E6,29,,0x0A 0x0A 0x0D 0x0A 0x0D,%s%s%sHold the joystick in the%s%s,החזק את הג'ויסטיק ב%s%s
 0x15904,13,,0x0A 0x0D,lower right%s%s,מטה-ימין%s%s
 0x15912,26,,,corner and press button 1:,ולחץ על כפתור 1:
-0x1592D,3,,,ESC,
-0x15931,4,,,BKSP,
-0x15936,3,,,TAB,
-0x1593A,4,,,CTRL,
-0x1593F,6,,,LSHIFT,
-0x15946,5,,,SPACE,
-0x1594C,6,,,CAPSLK,
-0x15953,1,,,F,
-0x15955,3,,,F11,
-0x15959,3,,,F12,
-0x1595D,6,,,SCRLLK,
-0x15964,5,,,ENTER,
-0x1596A,6,,,RSHIFT,
-0x15971,5,,,PRTSC,
-0x15977,3,,,ALT,
-0x1597B,4,,,HOME,
-0x15980,4,,,PGUP,
-0x15985,3,,,END,
-0x15989,4,,,PGDN,
-0x1598E,3,,,INS,
-0x15992,3,,,DEL,
-0x15996,5,,,NUMLK,
+0x1592D,3,,,ESC,ESC
+0x15931,4,,,BKSP,BKSP
+0x15936,3,,,TAB,TAB
+0x1593A,4,,,CTRL,CTRL
+0x1593F,6,,,LSHIFT,LSHIFT
+0x15946,5,,,SPACE,SPACE
+0x1594C,6,,,CAPSLK,CAPSLK
+0x15953,1,,,F,F
+0x15955,3,,,F11,F11
+0x15959,3,,,F12,F12
+0x1595D,6,,,SCRLLK,SCRLLK
+0x15964,5,,,ENTER,ENTER
+0x1596A,6,,,RSHIFT,RSHIFT
+0x15971,5,,,PRTSC,PRTSC
+0x15977,3,,,ALT,ALT
+0x1597B,4,,,HOME,HOME
+0x15980,4,,,PGUP,PGUP
+0x15985,3,,,END,END
+0x15989,4,,,PGDN,PGDN
+0x1598E,3,,,INS,INS
+0x15992,3,,,DEL,DEL
+0x15996,5,,,NUMLK,NUMLK
 0x1599C,18,,0x0A,Keyboard Commands%s,פקודות מקלדת%s
 0x159C1,13,,0x0A,%s0 north    :,%s0 צפונה    :
 0x159CF,13,,0x0A,%s1 northeast:,%s1 צפון-מזרח:
@@ -111,9 +95,6 @@ offset,eng_size,he_size,special_char,text_en,text_he
 0x15A63,20,,0x0A 0x0D,%s%sPress the new key:,%s%sלחץ על המקש החדש:
 0x15A95,4,,,DEMO,דמו
 0x15A9C,4,,,DEMO,דמו
-0x15A10,3,,,PCR,
-0x15A14,9,,,CTLPANEL.,
-0x15A1E,9,,,CTLPANEL.,
 0x15DCA,7,,,SCORES.,ניקוד.
 0x15DD7,5,,,first,ראשון
 0x15DDE,6,,,second,שני
@@ -122,13 +103,15 @@ offset,eng_size,he_size,special_char,text_en,text_he
 0x15DF3,5,,,fifth,חמישי
 0x15DFA,5,,,sixth,שישי
 0x15E01,4,,,last,סופי
-0x15E36,39,,0x0A,DISK ERROR!  I am having some problems%s,
-0x15E5E,39,,0x0A,accessing the disk drive. Put the disk%s,
-0x15E86,38,,0x0A,back in (if it's out) and press a key%s,
-0x15EAD,26,,,"to retry, or ESC to abort:",
-0x15EC8,39,,0x0A,DISK ERROR!  I am having some problems%s,
-0x15EF0,26,,0x0A,accessing the disk drive.%s,
-0x15F0B,10,,0x0A,Aborting.%s,
+0x15E08,7,,,SAVED?.,לשמור?.
+0x15E15,7,,,SAVED?.,לשמור?.
+0x15E36,39,,0x0A,DISK ERROR!  I am having some problems%s,DISK ERROR!  I AM HAVING SOME PROBLEMS%s
+0x15E5E,39,,0x0A,accessing the disk drive. Put the disk%s,ACCESSING THE DISK DRIVE. PUT THE DISK%s
+0x15E86,38,,0x0A,back in (if it's out) and press a key%s,BACK IN (IF IT'S OUT) AND PRESS A KEY%s
+0x15EAD,26,,,"to retry, or ESC to abort:","TO RETRY, OR ESC TO ABORT:"
+0x15EC8,39,,0x0A,DISK ERROR!  I am having some problems%s,DISK ERROR!  I AM HAVING SOME PROBLEMS%s
+0x15EF0,26,,0x0A,accessing the disk drive.%s,ACCESSING THE DISK DRIVE.%s
+0x15F0B,10,,0x0A,Aborting.%s,ABORTING.%s
 0x15F17,36,,0x0A,Commander Keen returns to the Bean-%s,המפקד קין חוזר למגה-טיל-%s
 0x15F3C,34,,0x0A,with-Bacon Megarocket and quickly%s,השעועית עם נקניק שלו ומיד%s
 0x15F5F,36,,0x0A,replaces the missing parts. He must%s,מתקין את החלקים החסרים. הוא חייב%s
@@ -148,7 +131,7 @@ offset,eng_size,he_size,special_char,text_en,text_he
 0x1608F,23,,0x0A,"Well, we'll talk about%s","ובכן, נדבר על%s"
 0x160A7,21,,0x0A,"that in the morning,%s","זה בבוקר,%s"
 0x160BD,23,,,son. You get some rest.,בן. לך לנוח.
-0x160D5,19,,,"OK, Mom. Goodnight.","בסדר, אמא. לילה טוב."
+0x160D5,19,,,"OK, Mom. Goodnight.","בסדר אמא. לילה טוב."
 0x160E9,16,,,"Goodnight, dear.","לילה טוב, יקירי."
 0x160FA,22,,0x0A,But there is no sleep%s,אבל אין שינה%s
 0x16111,24,,0x0A,for Commander Keen! The%s,למפקד קין!%s
@@ -184,8 +167,6 @@ offset,eng_size,he_size,special_char,text_en,text_he
 0x16388,30,,0x0A,Thank you in advance for your%s,תודה מראש על%s
 0x163A7,34,,0x0A,contribution to the future of the%s,תרומתכם לעתיד של%s
 0x163CA,25,,,growing shareware market.,השוק העממי המתפתח.
-0x15E08,7,,,SAVED?.,לשמור?.
-0x15E15,7,,,SAVED?.,לשמור?.
 0x163E4,22,,0x0A,You can SAVE the game%s,ניתן לשמור את המשחק%s
 0x163FB,23,,0x0A,ONLY on the World Map!%s,רק במפת העולם!%s
 0x16413,16,,,press a key:,לחץ על מקש:
@@ -208,24 +189,14 @@ offset,eng_size,he_size,special_char,text_en,text_he
 0x16590,25,,0x0A,Commander Keen: Invasion%s,המפקד קין: הפלישה%s
 0x165AA,26,,0x0A,of the Vorticons consists%s,של הוורטיקונים מורכב%s
 0x165C5,23,,0x0A,of three unique and%s,משלושה פרקים ייחודיים%s
-0x16579,24,,0x0A,challenging episodes:%s,ופרקים מאתגרים:%s
 0x165F7,26,,0x0A,1. Marooned on Mars   $15%s,1. נתקע על מאדים   $15%s
 0x16612,26,,0x0A,2. The Earth Explodes $15%s,2. כדור הארץ מתפוצץ $15%s
-0x165C8,26,,0x0A,3. Keen Must Die!     $15%s,3. קין חייב למות!     $15%s
-0x165E3,39,,0x0A,Order the trilogy for $30 and you get%s,הזמן את הטרילוגיה ב$30 ותקבל%s
 0x16672,38,,0x0A,"  * The ""Secret Hints & Tricks"" sheet%s","  * דף ""רמזים וטריקים סודיים""%s"
 0x16699,38,,0x0A,"  * The special ""cheat mode"" password%s",סיסמא למוד הרמאות המיוחד%s
 0x166C0,36,,0x0A,* The latest version of each game%s,* הגרסה האחרונה של כל משחק%s
 0x166E5,31,,0x0A 0x0A,* SEVERAL FREE BONUS GAMES!%s%s,* מספר משחקי בונוס חינמיים!%s%s
 0x16705,39,,0x0A,Mail orders to:%s,שלח הזמנות ל:%s
-0x1672D,39,,0x0A,(U.S. funds only       Apogee Software%s,
-0x16755,39,,0x0A,checks or M/O's        P.O. Box 476389%s,
-0x16716,43,,0x0A 0x0A 0x0A,"include $2 P&H)        Garland, TX 75047%s%s%s",
-0x16742,41,,0x0A,Specify 5.25/3.5 disk size when ordering%s,ציין את גודל הדיסק 5.25/3.5 בעת ההזמנה%s
+0x1672D,39,,0x0A,(U.S. funds only       Apogee Software%s,(U.S. FUNDS ONLY       APOGEE SOFTWARE%s
+0x16755,39,,0x0A,checks or M/O's        P.O. Box 476389%s,CHECKS OR M/O'S        P.O. BOX 476389%s
 0x167A8,46,,0x0A,Or order toll free: 1-800-852-5659    %s,או הזמנה חינם: 1-800-852-5659    %s
 0x167D7,38,,0x0A 0x0A 0x0A 0x0A 0x0A 0x0A,Your ship is missing%sthese parts:%s%s%s%s%s,הספינה שלך חסרה את החלקים הבאים:%s%s%s%s%s
-0x167C2,17,,0x0A,GO GET THEM!%s,לך להשיג אותם!%s
-0x167D4,11,,,press a ,לחץ על 
-0x167E0,4,,,key:,מקש:
-0x167E5,7,,,button:,כפתור:
-0x167ED,20,,,Missing a text file!,חסר קובץ טקסט!

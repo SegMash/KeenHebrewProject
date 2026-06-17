@@ -9,4 +9,5 @@ python.exe .\scripts\font\copy_sci_font_to_image.py --sci-font .\font.000 --targ
 REM IMport New Font
 KEENGRAPH.exe -episode=1 -import -bmpdir="GRAPHICS" -tra -filedir="keen1"
 REM Inject strings to KEEN exe
-python scripts/text/inject_exe_strings_from_csv.py --input-csv exe_strings_heb.csv --input-exe keen1/KEEN1.EXE --override
+REM python scripts/text/inject_exe_strings_from_csv.py --input-csv exe_strings_heb.csv --input-exe keen1/KEEN1.EXE --override
+python scripts/text/inject_exe_strings_from_csv.py --input-csv exe_strings_heb_v2.csv --input-exe keen1/KEEN1.EXE --override

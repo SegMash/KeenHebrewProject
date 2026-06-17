@@ -4,18 +4,21 @@ Use case: you re-ran `extract_exe_strings_csv.py` against a new build of the
 exe and got a new strings CSV with shifted offsets. You don't want to lose
 the Hebrew translations you already typed into the previous heb CSV.
 
-This script iterates the OLD heb CSV row-for-row (so the output has exactly
-the same set of rows you already curated -- no new rows from the new exe are
-added). For each old row it looks up the matching row in the new exe CSV by
-`text_en` and, when matched, refreshes the `offset` / `eng_size` /
-`special_char` fields while preserving `text_he` / `he_size`.
+This script is driven by the NEW exe CSV: every row from the new exe ends up
+in the output with its `offset`, `eng_size`, `special_char`, and `text_en`
+taken as-is from the new exe CSV. For each row, the `text_he` (and
+`he_size`) is pulled from the old heb CSV when the `text_en` matches.
 
 Duplicate `text_en` values are matched in occurrence order (N-th occurrence
-in the old file consumes the N-th occurrence in the new file), so repeated
+in the new file consumes the N-th occurrence in the old file), so repeated
 strings like "DEMO" or "DISK ERROR!..." stay aligned.
 
-Old rows that have no match in the new exe are kept as-is (with their old
-offset) and reported on stderr so you can decide what to do.
+Rows from the new exe whose `text_en` is NOT present in the old heb CSV
+are SKIPPED entirely (they are not written to the output). Rows whose
+English exists in the old heb CSV but with an empty `text_he` get an
+auto-generated placeholder: the English text uppercased (with `%s`
+placeholders preserved). Old translations whose `text_en` no longer appears
+in the new exe are dropped from the output and reported on stderr.
 """
 
 from __future__ import annotations
@@ -108,78 +111,88 @@ def main() -> None:
         print(str(exc), file=sys.stderr)
         sys.exit(1)
 
-    # Build a FIFO queue of NEW exe rows per text_en, so when the old heb file
-    # contains the same English string multiple times (e.g. "DEMO" twice),
-    # the N-th old occurrence consumes the N-th new occurrence.
-    new_queue_by_text: dict[str, list[dict[str, str]]] = defaultdict(list)
-    for row in new_rows:
-        new_queue_by_text[row["text_en"]].append(row)
+    # Build a FIFO queue of OLD heb rows per text_en, so that when the new
+    # exe CSV contains the same English string multiple times (e.g. "DEMO"
+    # twice), the N-th new occurrence consumes the N-th old translation.
+    old_queue_by_text: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in old_rows:
+        old_queue_by_text[row["text_en"]].append(row)
 
     merged: list[dict[str, str]] = []
-    unmatched_old: list[str] = []
-    refreshed_count = 0
+    skipped_missing_en: list[str] = []
+    auto_uppercased: list[str] = []
+    translated_count = 0
     eng_size_mismatches: list[str] = []
     special_char_mismatches: list[str] = []
 
-    # Iterate the OLD heb rows so the output preserves the same set of rows
-    # (no new entries from the new exe are added).
-    for old_row in old_rows:
-        text_en = old_row["text_en"]
-        queue = new_queue_by_text.get(text_en)
+    # Drive the output by the NEW exe CSV: rows whose text_en exists in the
+    # old heb CSV are written through (with hebrew pulled from old or
+    # auto-uppercased when blank). Rows whose text_en is NOT present in the
+    # old heb CSV at all are skipped entirely.
+    for new_row in new_rows:
+        text_en = new_row["text_en"]
+        queue = old_queue_by_text.get(text_en)
 
-        if queue:
-            new_row = queue.pop(0)
-            merged_row = {
-                "offset": new_row["offset"],
-                "eng_size": new_row["eng_size"],
-                "he_size": old_row.get("he_size", "") or "",
-                "special_char": new_row["special_char"],
-                "text_en": text_en,
-                "text_he": old_row.get("text_he", "") or "",
-            }
-            refreshed_count += 1
-
-            old_eng_size = (old_row.get("eng_size") or "").strip()
-            new_eng_size = (new_row.get("eng_size") or "").strip()
-            if old_eng_size and new_eng_size and old_eng_size != new_eng_size:
-                eng_size_mismatches.append(
-                    f"[new offset {new_row['offset']}] old eng_size={old_eng_size} "
-                    f"new eng_size={new_eng_size}"
-                )
-
-            old_special = (old_row.get("special_char") or "").strip()
-            new_special = (new_row.get("special_char") or "").strip()
-            if old_special != new_special:
-                special_char_mismatches.append(
-                    f"[new offset {new_row['offset']}] old special_char={old_special!r} "
-                    f"new special_char={new_special!r}"
-                )
-        else:
-            # No match in the new exe: keep the old row as-is so the user can
-            # investigate. The old offset is left untouched.
-            merged_row = {
-                "offset": old_row.get("offset", "") or "",
-                "eng_size": old_row.get("eng_size", "") or "",
-                "he_size": old_row.get("he_size", "") or "",
-                "special_char": old_row.get("special_char", "") or "",
-                "text_en": text_en,
-                "text_he": old_row.get("text_he", "") or "",
-            }
+        if not queue:
             preview = text_en[:80] + ("..." if len(text_en) > 80 else "")
-            unmatched_old.append(
-                f"[old offset {old_row.get('offset', '?')}] text_en={preview!r}"
+            skipped_missing_en.append(
+                f"[new offset {new_row['offset']}] text_en={preview!r}"
+            )
+            continue
+
+        old_row = queue.pop(0)
+        merged_row = {
+            "offset": new_row["offset"],
+            "eng_size": new_row["eng_size"],
+            "he_size": old_row.get("he_size", "") or "",
+            "special_char": new_row["special_char"],
+            "text_en": text_en,
+            "text_he": "",
+        }
+
+        old_text_he = old_row.get("text_he", "") or ""
+        if old_text_he:
+            merged_row["text_he"] = old_text_he
+            translated_count += 1
+        else:
+            # The English exists in the old heb CSV but with no hebrew
+            # translation. Per user request, drop in the English text
+            # uppercased as a placeholder so it's visually distinct.
+            # `%s` markers must stay lowercase because inject_exe_strings
+            # matches them literally as control-byte placeholders.
+            merged_row["text_he"] = "%s".join(
+                chunk.upper() for chunk in text_en.split("%s")
+            )
+            auto_uppercased.append(new_row["offset"])
+
+        old_eng_size = (old_row.get("eng_size") or "").strip()
+        new_eng_size = (new_row.get("eng_size") or "").strip()
+        if old_eng_size and new_eng_size and old_eng_size != new_eng_size:
+            eng_size_mismatches.append(
+                f"[new offset {new_row['offset']}] old eng_size={old_eng_size} "
+                f"new eng_size={new_eng_size}"
+            )
+
+        old_special = (old_row.get("special_char") or "").strip()
+        new_special = (new_row.get("special_char") or "").strip()
+        if old_special != new_special:
+            special_char_mismatches.append(
+                f"[new offset {new_row['offset']}] old special_char={old_special!r} "
+                f"new special_char={new_special!r}"
             )
 
         merged.append(merged_row)
 
-    # Informational: list strings in the new exe that have no entry in the
-    # heb file. These are NOT added to the output (per user requirement).
-    unclaimed_new: list[str] = []
-    for text_en, leftover in new_queue_by_text.items():
+    # Translations from the old heb file whose text_en is not present in the
+    # new exe CSV. They are dropped from the output but listed so the user
+    # can decide whether the English text actually changed.
+    orphans: list[str] = []
+    for text_en, leftover in old_queue_by_text.items():
         for row in leftover:
             preview = text_en[:80] + ("..." if len(text_en) > 80 else "")
-            unclaimed_new.append(
-                f"[new offset {row.get('offset', '?')}] text_en={preview!r}"
+            orphans.append(
+                f"[old offset {row.get('offset', '?')}] text_en={preview!r} "
+                f"text_he={(row.get('text_he') or '')!r}"
             )
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -190,22 +203,30 @@ def main() -> None:
 
     print(
         f"Wrote {len(merged)} rows to {args.output} "
-        f"({refreshed_count} offsets refreshed from the new exe, "
-        f"{len(unmatched_old)} kept with old offset)."
+        f"({translated_count} hebrew translations carried over, "
+        f"{len(auto_uppercased)} auto-filled with UPPERCASE english, "
+        f"{len(skipped_missing_en)} skipped because text_en was not in the heb CSV)."
     )
 
-    if unmatched_old:
+    if skipped_missing_en:
         _print_list(
-            f"  {len(unmatched_old)} heb row(s) had no match in the new exe and were kept "
-            "with their OLD offset -- investigate whether the English string changed:",
-            unmatched_old,
+            f"  {len(skipped_missing_en)} row(s) from the new exe CSV were SKIPPED because "
+            "text_en is not present in the heb CSV:",
+            skipped_missing_en,
         )
 
-    if unclaimed_new:
+    if auto_uppercased:
         _print_list(
-            f"  {len(unclaimed_new)} string(s) in the new exe are not present in the heb file "
-            "and were NOT added:",
-            unclaimed_new,
+            f"  {len(auto_uppercased)} row(s) existed in the old heb CSV without a translation; "
+            "text_he was auto-filled with the UPPERCASE english:",
+            auto_uppercased,
+        )
+
+    if orphans:
+        _print_list(
+            f"  {len(orphans)} old translation(s) had no matching English string in the new "
+            "exe and were dropped:",
+            orphans,
         )
 
     if eng_size_mismatches:

@@ -148,7 +148,7 @@ offset,eng_size,he_size,special_char,text_en,text_he
 0x15F9C,23,,0x0A,"Well, we'll talk about%s","ובכן, נדבר על%s",
 0x15FB4,21,,0x0A,"that in the morning,%s","זה בבוקר,%s",
 0x15FCA,23,,,son. You get some rest.,בן. לך לנוח.,
-0x15FE2,19,,,"OK, Mom. Goodnight.","בסדר, אמא. לילה טוב.",
+0x15FE2,19,,,"OK, Mom. Goodnight.","בסדר אמא. לילה טוב.",
 0x15FF6,16,,,"Goodnight, dear.","לילה טוב, יקירי.",
 0x16007,22,,0x0A,But there is no sleep%s,אבל אין שינה%s,
 0x1601E,24,,0x0A,for Commander Keen! The%s,למפקד קין!%s,
