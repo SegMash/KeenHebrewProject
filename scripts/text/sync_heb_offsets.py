@@ -4,18 +4,18 @@ Use case: you re-ran `extract_exe_strings_csv.py` against a new build of the
 exe and got a new strings CSV with shifted offsets. You don't want to lose
 the Hebrew translations you already typed into the previous heb CSV.
 
-This script joins the two CSVs on `text_en` (assuming the English strings
-didn't change between exe builds) and writes a new heb CSV that has:
-  * offset / eng_size / special_char from the NEW exe CSV (fresh offsets)
-  * text_he / he_size from the OLD heb CSV (preserved translations)
+This script iterates the OLD heb CSV row-for-row (so the output has exactly
+the same set of rows you already curated -- no new rows from the new exe are
+added). For each old row it looks up the matching row in the new exe CSV by
+`text_en` and, when matched, refreshes the `offset` / `eng_size` /
+`special_char` fields while preserving `text_he` / `he_size`.
 
 Duplicate `text_en` values are matched in occurrence order (N-th occurrence
-in the new file gets the N-th occurrence's translation from the old file),
-so repeated strings like "DEMO" or "DISK ERROR!..." stay aligned.
+in the old file consumes the N-th occurrence in the new file), so repeated
+strings like "DEMO" or "DISK ERROR!..." stay aligned.
 
-Strings that exist in the new exe but not in the old heb CSV are written
-with an empty `text_he` (you'll need to translate them). Translations in
-the old CSV that have no match in the new exe are reported on stderr.
+Old rows that have no match in the new exe are kept as-is (with their old
+offset) and reported on stderr so you can decide what to do.
 """
 
 from __future__ import annotations
@@ -31,8 +31,13 @@ FIELDNAMES = ["offset", "eng_size", "he_size", "special_char", "text_en", "text_
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
+    # `skipinitialspace=True` lets the parser tolerate a stray space between
+    # a comma delimiter and the opening quote of the next field (e.g.
+    # `..."english text", "hebrew, text"`). Without it, Python's csv module
+    # treats the field as unquoted, splits on the first inner comma, and the
+    # rest of the value silently leaks into a phantom extra column.
     with path.open("r", newline="", encoding="utf-8") as csv_file:
-        reader = csv.DictReader(csv_file)
+        reader = csv.DictReader(csv_file, skipinitialspace=True)
         missing = set(FIELDNAMES).difference(reader.fieldnames or [])
         if missing:
             raise ValueError(
@@ -103,39 +108,36 @@ def main() -> None:
         print(str(exc), file=sys.stderr)
         sys.exit(1)
 
-    # Build a FIFO queue of old translations per text_en so duplicate strings
-    # (e.g. "DEMO" appearing twice) are matched 1st-to-1st, 2nd-to-2nd, ...
-    old_queue_by_text: dict[str, list[dict[str, str]]] = defaultdict(list)
-    for row in old_rows:
-        old_queue_by_text[row["text_en"]].append(row)
+    # Build a FIFO queue of NEW exe rows per text_en, so when the old heb file
+    # contains the same English string multiple times (e.g. "DEMO" twice),
+    # the N-th old occurrence consumes the N-th new occurrence.
+    new_queue_by_text: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in new_rows:
+        new_queue_by_text[row["text_en"]].append(row)
 
     merged: list[dict[str, str]] = []
-    untranslated: list[str] = []
-    translated_count = 0
+    unmatched_old: list[str] = []
+    refreshed_count = 0
     eng_size_mismatches: list[str] = []
     special_char_mismatches: list[str] = []
 
-    for new_row in new_rows:
-        text_en = new_row["text_en"]
-        queue = old_queue_by_text.get(text_en)
-
-        merged_row = {
-            "offset": new_row["offset"],
-            "eng_size": new_row["eng_size"],
-            "he_size": "",
-            "special_char": new_row["special_char"],
-            "text_en": text_en,
-            "text_he": "",
-        }
+    # Iterate the OLD heb rows so the output preserves the same set of rows
+    # (no new entries from the new exe are added).
+    for old_row in old_rows:
+        text_en = old_row["text_en"]
+        queue = new_queue_by_text.get(text_en)
 
         if queue:
-            old_row = queue.pop(0)
-            merged_row["he_size"] = old_row.get("he_size", "") or ""
-            merged_row["text_he"] = old_row.get("text_he", "") or ""
-            if merged_row["text_he"]:
-                translated_count += 1
-            else:
-                untranslated.append(new_row["offset"])
+            new_row = queue.pop(0)
+            merged_row = {
+                "offset": new_row["offset"],
+                "eng_size": new_row["eng_size"],
+                "he_size": old_row.get("he_size", "") or "",
+                "special_char": new_row["special_char"],
+                "text_en": text_en,
+                "text_he": old_row.get("text_he", "") or "",
+            }
+            refreshed_count += 1
 
             old_eng_size = (old_row.get("eng_size") or "").strip()
             new_eng_size = (new_row.get("eng_size") or "").strip()
@@ -153,17 +155,31 @@ def main() -> None:
                     f"new special_char={new_special!r}"
                 )
         else:
-            untranslated.append(new_row["offset"])
+            # No match in the new exe: keep the old row as-is so the user can
+            # investigate. The old offset is left untouched.
+            merged_row = {
+                "offset": old_row.get("offset", "") or "",
+                "eng_size": old_row.get("eng_size", "") or "",
+                "he_size": old_row.get("he_size", "") or "",
+                "special_char": old_row.get("special_char", "") or "",
+                "text_en": text_en,
+                "text_he": old_row.get("text_he", "") or "",
+            }
+            preview = text_en[:80] + ("..." if len(text_en) > 80 else "")
+            unmatched_old.append(
+                f"[old offset {old_row.get('offset', '?')}] text_en={preview!r}"
+            )
 
         merged.append(merged_row)
 
-    orphans: list[str] = []
-    for text_en, leftover in old_queue_by_text.items():
+    # Informational: list strings in the new exe that have no entry in the
+    # heb file. These are NOT added to the output (per user requirement).
+    unclaimed_new: list[str] = []
+    for text_en, leftover in new_queue_by_text.items():
         for row in leftover:
             preview = text_en[:80] + ("..." if len(text_en) > 80 else "")
-            orphans.append(
-                f"[old offset {row.get('offset', '?')}] text_en={preview!r} "
-                f"text_he={(row.get('text_he') or '')!r}"
+            unclaimed_new.append(
+                f"[new offset {row.get('offset', '?')}] text_en={preview!r}"
             )
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -174,20 +190,22 @@ def main() -> None:
 
     print(
         f"Wrote {len(merged)} rows to {args.output} "
-        f"({translated_count} carried over, {len(untranslated)} still need translation)."
+        f"({refreshed_count} offsets refreshed from the new exe, "
+        f"{len(unmatched_old)} kept with old offset)."
     )
 
-    if untranslated:
+    if unmatched_old:
         _print_list(
-            f"  {len(untranslated)} row(s) in the new exe CSV have no translation yet "
-            "(text_he left blank):",
-            untranslated,
+            f"  {len(unmatched_old)} heb row(s) had no match in the new exe and were kept "
+            "with their OLD offset -- investigate whether the English string changed:",
+            unmatched_old,
         )
 
-    if orphans:
+    if unclaimed_new:
         _print_list(
-            f"  {len(orphans)} old translation(s) had no match in the new exe and were dropped:",
-            orphans,
+            f"  {len(unclaimed_new)} string(s) in the new exe are not present in the heb file "
+            "and were NOT added:",
+            unclaimed_new,
         )
 
     if eng_size_mismatches:
