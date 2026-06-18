@@ -170,7 +170,16 @@ def split_special_chars(special_char_str: str, core_placeholder_count: int) -> t
 def build_padded_string_with_trailing(
     core_bytes: bytes, trailing_bytes: bytes, eng_size: int, he_size_raw: str
 ) -> bytes:
-    """Build final padded string with right spaces inserted before trailing bytes."""
+    """Build final padded string.
+
+    Layout: ``[left spaces][core][trailing][NULLs (0x00)]``.
+
+    Left padding stays as ASCII spaces so on-screen positioning is preserved.
+    The trailing special bytes (typically a 0x0A newline) sit immediately
+    after the core text, and any remaining slot space is filled with 0x00
+    so C-style string readers terminate cleanly past the special bytes
+    rather than rendering trailing blanks.
+    """
     total_length = len(core_bytes) + len(trailing_bytes)
     if total_length > eng_size:
         raise ValueError(
@@ -179,7 +188,7 @@ def build_padded_string_with_trailing(
 
     if he_size_raw.strip() == "":
         left_spaces = eng_size - total_length
-        right_spaces = 0
+        trailing_nulls = 0
     else:
         target_left_width = int(he_size_raw)
         left_spaces = max(target_left_width - len(core_bytes), 0)
@@ -191,13 +200,13 @@ def build_padded_string_with_trailing(
 
         if left_spaces > available_padding:
             left_spaces = available_padding
-        right_spaces = available_padding - left_spaces
+        trailing_nulls = available_padding - left_spaces
 
     return (
         (b" " * left_spaces)
         + core_bytes
-        + (b" " * right_spaces)
         + trailing_bytes
+        + (b"\x00" * trailing_nulls)
     )
 
 
@@ -216,10 +225,16 @@ def inject_strings(csv_path: Path, input_exe: Path, output_exe: Path) -> None:
         skipped_count = 0
 
         for row_number, row in enumerate(reader, start=2):  # Start at 2 (header is row 1)
-            text_he = row.get("text_he", "").strip()
-            if not text_he:
+            text_he_raw = row.get("text_he", "")
+            text_he = text_he_raw.strip()
+            # Skip only when the cell is truly empty. A spaces-only translation
+            # (e.g. "   ") is intentional (used to blank out a string in-game)
+            # and must be preserved verbatim.
+            if text_he_raw == "":
                 skipped_count += 1
                 continue
+            if text_he == "":
+                text_he = text_he_raw
 
             offset_raw = row.get("offset", "").strip()
             eng_size_raw = row.get("eng_size", "").strip()
@@ -291,7 +306,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
             "Inject Hebrew translations into KEEN1.EXE from CSV. "
-            "Rows with shorter translations are left-padded with spaces to original size."
+            "Rows with shorter translations are left-padded with spaces; any "
+            "remaining slot space after the trailing special bytes is filled "
+            "with 0x00 (NULL terminator)."
         )
     )
     parser.add_argument(

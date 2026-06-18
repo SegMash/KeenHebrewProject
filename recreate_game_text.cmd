@@ -1,3 +1,4 @@
+@echo off
 REM Translate text resources
 python scripts/text/build_ck_txt_from_csv.py --input-csv storytxt_extract_heb.csv --output keen1/STORYTXT.CK1 --override
 python scripts/text/build_ck_txt_from_csv.py --input-csv previews_extract_heb.csv --output keen1/PREVIEWS.CK1 --override
@@ -9,5 +10,8 @@ python.exe .\scripts\font\copy_sci_font_to_image.py --sci-font .\font.000 --targ
 REM IMport New Font
 KEENGRAPH.exe -episode=1 -import -bmpdir="GRAPHICS" -tra -filedir="keen1"
 REM Inject strings to KEEN exe
-REM python scripts/text/inject_exe_strings_from_csv.py --input-csv exe_strings_heb.csv --input-exe keen1/KEEN1.EXE --override
-python scripts/text/inject_exe_strings_from_csv.py --input-csv exe_strings_heb_v2.csv --input-exe keen1/KEEN1.EXE --override
+python scripts/text/inject_exe_strings_from_csv.py --input-csv exe_strings_heb.csv --input-exe keen1/KEEN1.EXE --override
+REM python scripts/text/inject_exe_strings_from_csv.py --input-csv exe_strings_heb_v2.csv --input-exe keen1/KEEN1.EXE --override
+REM Stage CKPatch patch file under keen1/hebpatch for CK1PATCH.EXE
+if not exist "keen1\hebpatch" mkdir "keen1\hebpatch"
+copy /Y "patches\keen1\patch.pat" "keen1\hebpatch\patch.pat"
