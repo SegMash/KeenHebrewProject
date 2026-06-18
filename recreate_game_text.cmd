@@ -10,6 +10,7 @@ python.exe .\scripts\font\copy_sci_font_to_image.py --sci-font .\font.000 --targ
 REM IMport New Font
 KEENGRAPH.exe -episode=1 -import -bmpdir="GRAPHICS" -tra -filedir="keen1"
 REM Inject strings to KEEN exe
+REM - Make sure to uncompress the keen exe before, for example: unlzexe.exe .\KEEN1.EXE (save the old exe and override with KEEN1.EXENEW)
 python scripts/text/inject_exe_strings_from_csv.py --input-csv exe_strings_heb.csv --input-exe keen1/KEEN1.EXE --override
 REM python scripts/text/inject_exe_strings_from_csv.py --input-csv exe_strings_heb_v2.csv --input-exe keen1/KEEN1.EXE --override
 REM Stage CKPatch patch file under keen1/hebpatch for CK1PATCH.EXE
