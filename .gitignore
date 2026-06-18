@@ -3,7 +3,8 @@
 backup
 GRAPHICS/*.BMP
 GRAPHICS/*.TXT
-keen*
+/keen1*
+
 
 # Python bytecode and caches
 __pycache__/
