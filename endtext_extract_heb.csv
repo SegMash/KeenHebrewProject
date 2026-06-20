@@ -1,0 +1,17 @@
+line_index,leading_spaces,is_red,has_bullet,has_big_bullet_top,has_big_bullet_bottom,special_end_sign_hex,trailing_breaks,text_en,text_he
+1,0,1,0,0,0,0x1F,0,,
+2,11,1,0,0,0,0x1F,0,TO BE CONTINUED...,המשך יבוא...
+3,1,1,0,0,0,,3,,
+4,0,0,0,0,0,,3,You must find your way onto the Vorticon Mothership and destroy all the horrible Tantalus Rays! If you don't--THE EARTH EXPLODES! Don't miss episode two!,"עליכם למצוא את הדרך אל ספינת האם של הוורטיקונים ולהשמיד את כל קרני הטנטלוס הנוראות! אם לא תעשו זאת – כדור הארץ יתפוצץ! אל תפספסו את הפרק השני!"
+5,0,0,0,0,0,,3,"And then on to Vorticon VI where the whole planet awaits your arrival! Make your way through all the Vorticon Cities and military installations, and prepare yourself for the final confrontation with the Grand Intellect! You won't believe the shocking finale!","ואז ממשיכים לוורטיקון 6, שם כוכב שלם מחכה לבואכם! פלסו את דרככם דרך ערי הוורטיקונים והמתקנים הצבאיים, והתכוננו לעימות הסופי עם ""השכל העליון""! לא תאמינו לסוף המזעזע!"
+6,0,0,0,0,0,,3,The final episodes are available from Apogee Software Productions. They are only $15 each or $30 for the whole trilogy!,"הפרקים האחרונים זמינים לרכישה מבית התוכנה שלנו .מחירם הוא רק 51$ לפרק או 03$ לטרילוגיה המלאה!"
+7,0,0,0,0,0,,3,Send your check or money order to:,שלחו צ'ק או המחאת דואר לכתובת:
+8,0,0,0,0,0,0x1F,0,Apogee Software Productions,SNOITCUDORP ERAWTFOS EEGOPA
+9,1,0,0,0,0,0x1F,0,P.O. Box 476389,ת.ד. 983674
+10,1,0,0,0,0,,3,"Garland, TX 75047","גארלנד, טקסס 74057"
+11,0,0,0,0,0,,3,Or call: 1-800-852-5659.,או התקשרו: 9565-258-008-1.
+12,0,0,0,0,0,,4,"(U.S. Funds only, and please include $2 for Shipping and Handling.)","(תשלום בדולר ארה""ב בלבד, אנא הוסיפו 2$ עבור משלוח וטיפול.)"
+13,5,0,0,1,0,0x1F,0,Commander Keen says:,קומנדר קין אומר:
+14,10,0,0,0,1,0x1F,0,"""Hope you enjoyed","""מקווה שנהניתם"
+15,13,0,0,0,0,,3,"the game. I did!""",מהמשחק. אני בהחלט נהניתי!"""
+16,6,1,0,0,0,0x1A,0,THE END (for now...),הסוף (לבינתיים...)
